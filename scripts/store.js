@@ -6,7 +6,7 @@ const items = [];
 const hideCheckedItems = false;
 
 function findById(id) {
-  let item = this.items.find(item => item.id === id);
+  let item = items.find(item => item.id === id);
   return item;
 }
 
@@ -19,11 +19,16 @@ function addItem(name) {
   }
 }
 
+function findAndToggleChecked(id) {
+  let item = findById(id);
+  item.checked = !item.checked;
+}
+
 function findAndUpdateName(id, newName) {
   try {
     item.validateName(newName);
-    let item = findById(id);
-    item.name = newName;
+    let currItem = findById(id);
+    currItem.name = newName;
   } catch(error) {
     console.log(`cannot update name: ${error.message}.`);
   }
@@ -31,13 +36,22 @@ function findAndUpdateName(id, newName) {
 
 function findAndDelete(id) {
   let item = findById(id);
-  let index = this.items.findIndex(item);
+  let index = this.items.findIndex(a => a.id === item.id);
   this.items.splice(index, 1);
+}
+
+function toggleCheckedFilter() {
+  this.hideCheckedItems = !this.hideCheckedItems;
 }
 
 export default {
   items,
-  hideCheckedItems
+  hideCheckedItems,
+  addItem,
+  findAndToggleChecked,
+  findAndUpdateName, 
+  findAndDelete, 
+  toggleCheckedFilter
 };
 
 
